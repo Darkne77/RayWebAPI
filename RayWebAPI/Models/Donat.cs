@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RayWebAPI.Models
 {
+    [Table("Donat")]
     public class Donat : EntityBase
     {
         public int Sum { get; set; }
