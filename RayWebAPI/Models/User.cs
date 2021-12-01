@@ -9,5 +9,6 @@
         public string BirthDay { get; set; }
         public string Mobile { get; set; }
         public int Rank { get; set; }
+        public string ImageSource { get; set; }
     }
 }
