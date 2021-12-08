@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using RayWebAPI.Models;
+using Microsoft.Extensions.Configuration;
+using RayWebAPI.Entities;
 
 namespace RayWebAPI.EF
 {
@@ -16,12 +16,18 @@ namespace RayWebAPI.EF
             
         }
 
+        private readonly IConfiguration _configuration;
+
+        public RayDbContext(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connectionString = @"server=.\SQLEXPRESS; database=RayDB;integrated security=True; MultipleActiveResultSets=True; App=EntityFramework;";
-                optionsBuilder.UseSqlServer(connectionString,
+                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("RayDB"),
                                             options => options.EnableRetryOnFailure());
             }
         }

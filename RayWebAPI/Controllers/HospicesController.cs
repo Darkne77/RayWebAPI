@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using RayWebAPI.EF;
-using RayWebAPI.Models;
+using RayWebAPI.Entities;
 
 namespace RayWebAPI.Controllers
 {
     [ApiController]
-    [Route("api/Hospice")]
-    public class HospiceController : ControllerBase
+    [Route("api/[controller]")]
+    public class HospicesController : ControllerBase
     {
         [HttpGet]
         public IEnumerable<Hospice> GetHospices()

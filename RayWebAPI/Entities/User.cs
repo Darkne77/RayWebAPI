@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RayWebAPI.Models
+namespace RayWebAPI.Entities
 {
     [Table("User")]
     public class User : EntityBase
@@ -16,5 +16,9 @@ namespace RayWebAPI.Models
         public int Rank { get; set; }
         [NotMapped]
         public string ImageSource { get; set; }
+        [NotMapped]
+        public byte[] PasswordHash { get; set; }
+        [NotMapped]
+        public byte[] PasswordSalt { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RayWebAPI
+namespace RayWebAPI.Entities
 {
     public class EntityBase
     {

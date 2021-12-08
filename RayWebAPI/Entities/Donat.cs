@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RayWebAPI.Models
+namespace RayWebAPI.Entities
 {
     [Table("Donat")]
     public class Donat : EntityBase

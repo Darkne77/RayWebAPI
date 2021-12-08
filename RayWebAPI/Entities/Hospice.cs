@@ -1,7 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RayWebAPI.Models
+namespace RayWebAPI.Entities
 {
     [Table("Hospice")]
     public class Hospice : EntityBase

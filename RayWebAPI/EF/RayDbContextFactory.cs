@@ -1,15 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace RayWebAPI.EF
 {
     public class RayDbContextFactory : IDesignTimeDbContextFactory<RayDbContext>
     {
+        private readonly IConfiguration _configuration;
+
+        public RayDbContextFactory(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        
         public RayDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<RayDbContext>();
-            var connectionString = @"server=.\SQLEXPRESS; database=RayDB;integrated security=True; MultipleActiveResultSets=True; App=EntityFramework;";
-            optionsBuilder.UseSqlServer(connectionString,
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("RayDB"),
                                         options => options.EnableRetryOnFailure());
             return new RayDbContext(optionsBuilder.Options);
         }
