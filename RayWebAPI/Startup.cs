@@ -31,13 +31,15 @@ namespace RayWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions.IgnoreNullValues = true);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RayWebAPI", Version = "v1" });
             });
             
             services.AddDbContext<RayDbContext>();
+            services.AddCors();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // configure strongly typed settings objects
             var appSettingsSection = _configuration.GetSection("AppSettings");
@@ -80,6 +82,7 @@ namespace RayWebAPI
                 });
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IHospiceService, HospiceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

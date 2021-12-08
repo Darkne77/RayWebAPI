@@ -8,7 +8,8 @@ namespace RayWebAPI.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserModel>();
+            CreateMap<User, UserModel>()
+                .ForMember(um => um.Login, x => x.MapFrom(um => um.Email));
             CreateMap<RegisterModel, User>();
             CreateMap<UpdateModel, User>();
         }

@@ -7,15 +7,6 @@ namespace RayWebAPI.EF
 {
     public class RayDbContext : DbContext
     {
-        public RayDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
-        internal RayDbContext()
-        {
-            
-        }
-
         private readonly IConfiguration _configuration;
 
         public RayDbContext(IConfiguration configuration)

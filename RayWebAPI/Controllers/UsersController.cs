@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,40 +24,34 @@ namespace RayWebAPI.Controllers
     public class UsersController : ControllerBase
     { 
         private readonly IUserService _userService;
-        private readonly IMapper _mapper;
         private readonly AppSettings _appSettings;
 
-        public UsersController(
-            IUserService userService, 
-            IMapper mapper,
-            IOptions<AppSettings> appSettings)
+        public UsersController(IUserService userService, 
+                               IOptions<AppSettings> appSettings)
         {
             _userService = userService;
-            _mapper = mapper;
             _appSettings = appSettings.Value;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var users = _userService.GetAll();
-            var model = _mapper.Map<IList<UserModel>>(users);
-            return Ok(model);
+            var users = await _userService.GetAll();
+            return Ok(users);
         }
         
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var user = _userService.GetById(id);
-            var model = _mapper.Map<UserModel>(user);
-            return Ok(model);
+            var user = await _userService.GetById(id);
+            return Ok(user);
         }
         
         //[AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]AuthenticateModel model)
+        public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
         {
-            var user = _userService.Authenticate(model.Login, model.Password);
+            var user = await _userService.Authenticate(model.Login, model.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });

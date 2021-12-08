@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using RayWebAPI.EF;
 using RayWebAPI.Entities;
 using RayWebAPI.Helpers;
 
 namespace RayWebAPI.Services
 {
-    public interface IUserService 
+    public interface IUserService
     { 
-        User Authenticate(string login, string password); 
-        IEnumerable<User> GetAll(); 
-        User GetById(int id);
+        Task<User> Authenticate(string login, string password);
+        Task<List<User>> GetAll();
+        Task<User> GetById(int id);
     }
     public class UserService : IUserService
     {
@@ -22,12 +24,12 @@ namespace RayWebAPI.Services
             _context = context;
         }
 
-        public User Authenticate(string login, string password)
+        public async Task<User> Authenticate(string login, string password)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _context.Users.SingleOrDefault(u => u.Email == login);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == login);
 
             // check if username exists
             if (user == null)
@@ -41,14 +43,14 @@ namespace RayWebAPI.Services
             return user;
         }
 
-        public IEnumerable<User> GetAll()
+        public Task<List<User>> GetAll()
         {
-            return _context.Users;
+            return _context.Users.ToListAsync();
         }
 
-        public User GetById(int id)
+        public Task<User> GetById(int id)
         {
-            return _context.Users.Find(id);
+            return _context.Users.FindAsync(id).AsTask();
         }
 
         #region FutureFeatures

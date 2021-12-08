@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RayWebAPI.EF;
 using RayWebAPI.Entities;
+using RayWebAPI.Models.Users;
+using RayWebAPI.Services;
 
 namespace RayWebAPI.Controllers
 {
@@ -11,15 +15,19 @@ namespace RayWebAPI.Controllers
     [Route("api/[controller]")]
     public class HospicesController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<Hospice> GetHospices()
+        private readonly IHospiceService _hospiceService;
+
+        public HospicesController(
+            IHospiceService hospiceService)
         {
-            var hospices = new List<Hospice>();
-            using (var dbContext = new RayDbContext())
-            {
-                hospices.AddRange(dbContext.Hospices.ToList());
-            }
-            return hospices;
+            _hospiceService = hospiceService;
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var hospices = await _hospiceService.GetAll();
+            return Ok(hospices);
         }
     }
 }
