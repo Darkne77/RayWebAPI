@@ -16,9 +16,7 @@ namespace RayWebAPI.Entities
         public int Rank { get; set; }
         [NotMapped]
         public string ImageSource { get; set; }
-        [NotMapped]
         public byte[] PasswordHash { get; set; }
-        [NotMapped]
         public byte[] PasswordSalt { get; set; }
     }
 }

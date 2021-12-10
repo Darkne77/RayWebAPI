@@ -14,6 +14,7 @@ namespace RayWebAPI.Services
         Task<User> Authenticate(string login, string password);
         Task<List<User>> GetAll();
         Task<User> GetById(int id);
+        Task<User> Create(User user, string password);
     }
     public class UserService : IUserService
     {
@@ -53,18 +54,14 @@ namespace RayWebAPI.Services
             return _context.Users.FindAsync(id).AsTask();
         }
 
-        #region FutureFeatures
-
-        /*
-        
-        public User Create(User user, string password)
+        public async Task<User> Create(User user, string password)
         {
             // validation
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
-            if (_context.Users.Any(u => u.Email == user.Email))
-                throw new AppException("Username \"" + user.Email + "\" is already taken");
+            if (await _context.Users.AnyAsync(u => u.Email == user.Email))
+                throw new AppException("Email \"" + user.Email + "\" is already exist");
 
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
@@ -77,6 +74,10 @@ namespace RayWebAPI.Services
 
             return user;
         }
+        
+        #region FutureFeatures
+        
+        /*
 
         public void Update(User userParam, string password = null)
         {

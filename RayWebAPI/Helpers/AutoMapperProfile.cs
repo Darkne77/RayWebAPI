@@ -10,8 +10,10 @@ namespace RayWebAPI.Helpers
         {
             CreateMap<User, UserModel>()
                 .ForMember(um => um.Login, x => x.MapFrom(um => um.Email));
-            CreateMap<RegisterModel, User>();
-            CreateMap<UpdateModel, User>();
+            CreateMap<RegisterModel, User>()
+                .ForMember(u => u.Email, x => x.MapFrom(um => um.Login));
+            CreateMap<UpdateModel, User>()
+                .ForMember(u => u.Email, x => x.MapFrom(um => um.Login));
         }
     }
 }

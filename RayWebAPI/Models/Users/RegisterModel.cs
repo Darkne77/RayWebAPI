@@ -11,7 +11,7 @@ namespace RayWebAPI.Models.Users
         public string LastName { get; set; }
 
         [Required]
-        public string Username { get; set; }
+        public string Login { get; set; }
 
         [Required]
         public string Password { get; set; }
